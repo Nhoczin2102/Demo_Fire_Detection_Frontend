@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Fire Detection</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script> <!-- Thêm TensorFlow.js -->
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Dashboard</h2>
+        <ul>
+            <li><a href="#">Camera Feed</a></li>
+            <li><a href="#">Alerts</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="camera-feed">
+            <h3>Camera Feed</h3>
+            <div class="camera-box">
+                <video id="camera-video" width="1550" height="450" autoplay></video>
+            </div>
+        </div>
+
+        <div class="alerts">
+            <h3>Alerts</h3>
+            <div class="alert" id="alert-1" style="display: none;">
+                <span class="alert-type">Critical</span> Fire detected!
+                <button class="dismiss-btn" onclick="dismissAlert('alert-1')">Dismiss</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let video = document.getElementById('camera-video');
+
+        // Cài đặt webcam
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+                video.srcObject = stream;
+            })
+            .catch(function (error) {
+                console.log('Error accessing webcam: ', error);
+            });
+
+        // Hàm nhận diện lửa
+        async function detectFire() {
+            // Sử dụng mô hình đã huấn luyện để nhận diện lửa
+            const model = await tf.loadGraphModel('path_to_your_model/model.json'); // Đảm bảo có mô hình nhận diện lửa
+            const predictions = await model.predict(tf.browser.fromPixels(video));
+
+            // Kiểm tra nếu có lửa trong hình ảnh
+            if (predictions.some(prediction => prediction.className === 'fire' && prediction.score > 0.8)) {
+                document.getElementById('alert-1').style.display = 'block'; // Hiển thị cảnh báo khi phát hiện lửa
+            } else {
+                document.getElementById('alert-1').style.display = 'none'; // Ẩn cảnh báo nếu không có lửa
+            }
+        }
+
+        // Gọi hàm nhận diện lửa mỗi giây
+        setInterval(detectFire, 1000);
+
+        // Hàm đóng cảnh báo
+        function dismissAlert(alertId) {
+            document.getElementById(alertId).style.display = 'none';
+        }
+    </script>
+</body>
+</html>

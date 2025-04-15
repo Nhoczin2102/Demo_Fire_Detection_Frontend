@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        // Hàm thay đổi giữa các form đăng nhập và đăng ký
+        function toggleForms() {
+            var loginBox = document.getElementById('login-box');
+            var registerBox = document.getElementById('register-box');
+            loginBox.style.display = (loginBox.style.display === 'none') ? 'block' : 'none';
+            registerBox.style.display = (registerBox.style.display === 'none') ? 'block' : 'none';
+        }
+
+        // Kiểm tra tài khoản và mật khẩu đăng nhập
+        function validateLogin() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            
+            if (username === 'Sa' && password === '123456') {
+                alert('Đăng nhập thành công!');
+                window.location.href = 'camera.html'; // Chuyển đến trang camera
+            } else {
+                alert('Tài khoản hoặc mật khẩu không đúng!');
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Form đăng nhập -->
+        <div class="login-box" id="login-box">
+            <h2>Đăng nhập</h2>
+            <form action="javascript:void(0);" onsubmit="validateLogin()">
+                <div class="input-container">
+                    <label for="username">Tài khoản</label>
+                    <input type="text" id="username" placeholder="admin">
+                </div>
+                <div class="input-container">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" placeholder="*****">
+                </div>
+                <button type="submit">Đăng nhập</button>
+            </form>
+            <p>Bạn chưa có tài khoản? <a href="javascript:void(0);" onclick="toggleForms()">Đăng ký ngay</a></p>
+            <p><a href="forgot-password.html">Quên mật khẩu?</a></p>
+        </div>
+
+        <!-- Form đăng ký -->
+        <div class="register-box" id="register-box" style="display: none;">
+            <h2>Đăng ký</h2>
+            <form action="#">
+                <div class="input-container">
+                    <label for="new-username">Tài khoản mới</label>
+                    <input type="text" id="new-username" placeholder="Tên tài khoản">
+                </div>
+                <div class="input-container">
+                    <label for="new-email">Email</label>
+                    <input type="email" id="new-email" placeholder="Email của bạn">
+                </div>
+                <div class="input-container">
+                    <label for="new-password">Mật khẩu</label>
+                    <input type="password" id="new-password" placeholder="Mật khẩu mới">
+                </div>
+                <div class="input-container">
+                    <label for="confirm-password">Xác nhận mật khẩu</label>
+                    <input type="password" id="confirm-password" placeholder="Xác nhận mật khẩu">
+                </div>
+                <button type="submit">Đăng ký</button>
+            </form>
+            <p>Bạn đã có tài khoản? <a href="javascript:void(0);" onclick="toggleForms()">Đăng nhập ngay</a></p>
+        </div>
+    </div>
+</body>
+</html>
